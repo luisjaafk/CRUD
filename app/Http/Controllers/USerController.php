@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User; 
+use App\Notifications\UserNotification;
+use Illuminate\Support\Facades\Auth;
 
 
 class USerController extends Controller
@@ -39,7 +41,8 @@ class USerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-   public function store(Request $request)
+
+public function store(Request $request)
 {
     $validated = $request->validate([
         'name' => 'required|string|max:255',
@@ -47,10 +50,23 @@ class USerController extends Controller
         'password' => 'required|string|min:6',
     ]);
 
-    \App\Models\User::create($validated);
+    // Generar un token aleatorio
+    $remember_token = bin2hex(random_bytes(10));
 
-    return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente.');
+    // Crear el usuario manualmente para añadir el token
+    $user = new User();
+    $user->name = $validated['name'];
+    $user->email = $validated['email'];
+    $user->password = bcrypt($validated['password']);
+    $user->remember_token = $remember_token;
+    $user->save();
+
+    // Enviar notificación al usuario
+    $user->notify(new UserNotification($remember_token));
+
+return redirect()->route('usuarios.espera_confirmacion')->with('status', 'Revisa tu correo para activar la cuenta.');
 }
+
 
 
     /**

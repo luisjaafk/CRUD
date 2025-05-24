@@ -173,6 +173,16 @@
             <h1>Crea tu cuenta</h1>
             <p>Únete a nuestra comunidad</p>
         </div>
+        @if ($errors->any())
+    <div style="color:red; padding: 10px;">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
         
         <form class="form" action="/store" method="POST">    
             @csrf 

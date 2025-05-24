@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Application;
+use app\Http\Middleware\ValidateAccount;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
@@ -11,7 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->appendToGroup('account',[
+            ValidateAccount::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
