@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController; 
 use App\Http\Controllers\UserController; 
+use App\Http\Controllers\BlogController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -14,6 +16,8 @@ Route::post('/store', [UserController::class, 'store'])->name('usuarios.store');
 Route::get('/login', [UserController::class, 'login'])->name('usuarios.login');
 
 Route::post('/loginProces', [LoginController::class, 'loginProcess'])->name('login.process');
+
+Route::resource('posts', BlogController::class);
 
 
 

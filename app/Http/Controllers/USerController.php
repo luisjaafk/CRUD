@@ -50,18 +50,13 @@ public function store(Request $request)
         'password' => 'required|string|min:6',
     ]);
 
-    // Generar un token aleatorio
     $remember_token = bin2hex(random_bytes(10));
-
-    // Crear el usuario manualmente para añadir el token
     $user = new User();
     $user->name = $validated['name'];
     $user->email = $validated['email'];
     $user->password = bcrypt($validated['password']);
     $user->remember_token = $remember_token;
     $user->save();
-
-    // Enviar notificación al usuario
     $user->notify(new UserNotification($remember_token));
 
 return redirect()->route('usuarios.espera_confirmacion')->with('status', 'Revisa tu correo para activar la cuenta.');

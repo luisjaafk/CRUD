@@ -15,10 +15,51 @@
         }
 
         h1 {
-            text-align: center;
+            display: inline-block;
             color: #d64c81;
             margin-bottom: 2rem;
             text-shadow: 0 0 8px #6e0e4a;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.4rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 16px rgba(170, 0, 68, 0.4);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-danger {
+            background-color: transparent;
+            color: #d64c81;
+        }
+
+        .btn-danger:hover {
+            color: #fff;
+            background-color: #d64c81;
+        }
+
+        .btn-primary {
+            background: #6e0e4a;
+            color: #fff;
+            margin-top: 0;
+        }
+
+        .btn-primary:hover {
+            background: #aa0044;
+            box-shadow: 0 6px 20px rgba(170, 0, 68, 0.6);
         }
 
         table {
@@ -60,44 +101,6 @@
             color: #d64c81;
         }
 
-        button {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 0.6rem 1.4rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-align: center;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 16px rgba(170, 0, 68, 0.4);
-        }
-
-        .btn-danger {
-            background-color: transparent;
-            color: #d64c81;
-        }
-
-        .btn-danger:hover {
-            color: #fff;
-            background-color: #d64c81;
-        }
-
-        .btn-primary {
-            background: #6e0e4a;
-            color: #fff;
-            margin-top: 1.5rem;
-            margin-right: 0.5rem;
-        }
-
-        .btn-primary:hover {
-            background: #aa0044;
-            box-shadow: 0 6px 20px rgba(170, 0, 68, 0.6);
-        }
-
         .message {
             background: #6e0e4a;
             color: #fff;
@@ -111,7 +114,10 @@
 </head>
 <body>
 
-    <h1>Usuarios Registrados</h1>
+    <div class="top-bar">
+        <h1>Usuarios Registrados</h1>
+        <a href="{{ route('posts.create') }}" class="btn btn-primary">Agregar Nuevo Post</a>
+    </div>
 
     @if (session('success'))
         <div class="message">
