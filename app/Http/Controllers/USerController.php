@@ -15,24 +15,10 @@ class USerController extends Controller
      */
     public function index()
     {
-            return view('usuarios');
+        return response()->json(User::all());
 
     }
-    public function login()
-    {
-            return view('login');
-
-    }
-     public function loginProcess()
-    {
-        $users = User::all();
-
-        return view('usuarios.index', compact('users'));
-
-    }
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
         //
@@ -59,17 +45,14 @@ public function store(Request $request)
     $user->save();
     $user->notify(new UserNotification($remember_token));
 
-return redirect()->route('usuarios.espera_confirmacion')->with('status', 'Revisa tu correo para activar la cuenta.');
+        return response()->json(['message' => 'Usuario creado. Revisa tu correo para activar la cuenta.'], 201);
 }
 
 
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+         $user = User::findOrFail($id);
+        return response()->json($user);
     }
 
     /**
@@ -97,7 +80,7 @@ return redirect()->route('usuarios.espera_confirmacion')->with('status', 'Revisa
     $user->email = $request->email;
     $user->save();
 
-    return redirect()->route('usuarios.login')->with('success', 'Usuario actualizado correctamente.');
+        return response()->json(['message' => 'Usuario actualizado correctamente.']);
 }
 
 
@@ -106,9 +89,9 @@ return redirect()->route('usuarios.espera_confirmacion')->with('status', 'Revisa
      */
     public function destroy(string $id)
     {
-        $user = User::find($id);  
+        $user = User::findOrFail($id);
         $user->delete();
 
-return back()->with('success', 'Usuario eliminado correctamente.');
+        return response()->json(['message' => 'Usuario eliminado correctamente.']);
     }
 }
